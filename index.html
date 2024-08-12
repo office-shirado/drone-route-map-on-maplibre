@@ -176,7 +176,7 @@
       });
 
       
-/*
+
       // Tile3DLayerの初期化
       const tile3dLayer = new deck.Tile3DLayer({
         id: "tile3dlayer",
@@ -190,7 +190,7 @@
         _lighting: 'pbr',
         opacity: 1,
       });
-*/
+
       // ScenegraphLayerの初期化
       let scenegraphLayer = new deck.ScenegraphLayer({
         id: "scenegraphLayer",
@@ -213,8 +213,7 @@
       // MapboxOverlayの初期化
       const overlay = new deck.MapboxOverlay({
         interleaved: true,
-//        layers: [tile3dLayer, scenegraphLayer],
-        layers: [scenegraphLayer],
+        layers: [tile3dLayer, scenegraphLayer],
         effects: [lightingEffect],
       });
 

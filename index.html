@@ -223,13 +223,14 @@
       function updateScenegraphLayer() {
         const center = map.getCenter().toArray();
 
-        var center_height = queryTerrainElevation(center[0], center[1])
-        console.log(center_height)
+        //var center_height = queryTerrainElevation(center[0], center[1])
+        //console.log(center_height)
         // ScenegraphLayerを再生成して更新
         scenegraphLayer = new deck.ScenegraphLayer({
           id: "scenegraphLayer",
           data: [{}],
-          getPosition: () => [center[0], center[1], center_height + 120],
+//          getPosition: () => [center[0], center[1], center_height + 120],
+          getPosition: () => [center[0], center[1], 135],
           getOrientation: [0, -93, 90],
           scenegraph: MODEL_URL,
           sizeScale: 2,

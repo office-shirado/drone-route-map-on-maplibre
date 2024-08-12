@@ -4,8 +4,8 @@
   <title>ドローン航路マップ</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src='https://unpkg.com/maplibre-gl/dist/maplibre-gl.js'></script>
-  <link href='https://unpkg.com/maplibre-gl/dist/maplibre-gl.css' rel='stylesheet' />
+  <script src='https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.js'></script>
+  <link href='https://unpkg.com/maplibre-gl@4.5.0/dist/maplibre-gl.css' rel='stylesheet' />
   <script src="https://unpkg.com/pmtiles@2.11.0/dist/index.js"></script>
   <script src="https://unpkg.com/deck.gl@8.9.0/dist.min.js"></script>
   <script src="https://unpkg.com/@loaders.gl/3d-tiles@^2.3.0/dist/dist.min.js"></script>
@@ -223,14 +223,19 @@
       function updateScenegraphLayer() {
         const center = map.getCenter().toArray();
 
-        var center_height = queryTerrainElevation([center[0], center[1]]);
-        //console.log(center_height)
-        // ScenegraphLayerを再生成して更新
+       // ScenegraphLayerを再生成して更新
         scenegraphLayer = new deck.ScenegraphLayer({
           id: "scenegraphLayer",
           data: [{}],
-//          getPosition: () => [center[0], center[1], center_height + 120],
-          getPosition: () => [center[0], center[1], 135],
+          // getPosition: () => [center[0], center[1], altitude + 30], // 標高+30m
+          getPosition: () => {
+            const center = map.getCenter().toArray();
+            const altitude = parseFloat(map.transform.elevation) || 150; // 標高値を数値に変換
+            console.log('経度緯度:', center);
+            console.log('標高値:', altitude);
+            console.log('ドローンの高さ:', altitude + 30);
+            return [center[0], center[1], altitude + 30]; // 標高値+30m
+          },
           getOrientation: [0, -93, 90],
           scenegraph: MODEL_URL,
           sizeScale: 2,
@@ -239,8 +244,7 @@
             '*': { speed: 1 }
           },
           pickable: true,
-          opacity: 1,
-        });
+          opacity: 1,        });
 
         // 再生成したレイヤーをセット
         overlay.setProps({

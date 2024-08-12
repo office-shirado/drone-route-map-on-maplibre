@@ -175,87 +175,7 @@
         }
       });
 
-      /*
-      // MapboxOverlayを使ったインターリーブ
-      // 点群データ
-      const overlay = new deck.MapboxOverlay({
-        interleaved: true,
-        layers: [
-          new deck.Tile3DLayer({
-            id: "tile3dlayer",
-            pointSize: 1,
-            data: 'https://shiworks.xsrv.jp/3dtiles/shizuoka-pc/sunen-substation/tileset.json',
-            loader: Tiles3DLoader,
-            onTileLoad: d => {
-              const { content } = d;
-              content.cartographicOrigin.z -= 0;
-            }
-          }),
-          new deck.ScenegraphLayer({
-            id: "scenegraphLayer",
-            data: DATA_URL,
-            getPosition: d => {
-              const elevation = 135;
-              return [Number(d.longitude), Number(d.latitude), elevation];
-            },
-            getOrientation: d => [0, -93, 90],
-            scenegraph: MODEL_URL,
-            sizeScale: 5,
-            _lighting: 'pbr',
-            pickable: true,
-            opacity: 1,
-          })
-          new deck.ScenegraphLayer({
-            id: "scenegraphLayer",
-            data: [{}],
-            getPosition: () => {
-              const center = map.getCenter().toArray();
-              const elevation = 135;
-              return [center[0], center[1], elevation];
-            },
-            getOrientation: [0, -93, 90],
-            scenegraph: MODEL_URL,
-            sizeScale: 5,
-            _lighting: 'pbr',
-            pickable: true,
-            opacity: 1,
-          })
-        ],
-        effects: [
-          lightingEffect
-        ],
-      });
-
-      map.addControl(overlay);
-
-      // ScenegraphLayerの更新関数
-      function updateScenegraphLayer() {
-        const scenegraphLayer = new deck.ScenegraphLayer({
-          id: "scenegraphLayer",
-          data: [{}],
-          getPosition: () => {
-            const center = map.getCenter().toArray();
-            const elevation = 135;
-            return [center[0], center[1], elevation];
-          },
-          getOrientation: [0, -93, 90],
-          scenegraph: MODEL_URL,
-          sizeScale: 5,
-          _lighting: 'pbr',
-          pickable: true,
-          opacity: 1,
-        });
-
-        overlay.setProps({
-          layers: [scenegraphLayer]
-        });
-      }
-
-      // マップが移動した後に ScenegraphLayer を更新
-      map.on('move', () => {
-        updateScenegraphLayer();
-      });
-      */
+      
 
       // Tile3DLayerの初期化
       const tile3dLayer = new deck.Tile3DLayer({
@@ -303,7 +223,7 @@
       function updateScenegraphLayer() {
         const center = map.getCenter().toArray();
 
-        const center_height = queryTerrainElevation(center[0], center[1])
+        var center_height = queryTerrainElevation(center[0], center[1])
         console.log(center_height)
         // ScenegraphLayerを再生成して更新
         scenegraphLayer = new deck.ScenegraphLayer({
